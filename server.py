@@ -19,7 +19,11 @@ CORS(app)
 
 # 配置
 OUTPUT_DIR = Path("/tmp")  # 云端使用临时目录
-SKILLS_DIR = Path(__file__).parent / "skills"  # Skills在项目目录中
+
+# Skills目录 - 兼容两种结构
+SKILLS_DIR_NEW = Path(__file__).parent / "skills"  # 正确结构: skills/kuaishou-defense
+SKILLS_DIR_OLD = Path(__file__).parent  # 临时兼容: kuaishou-defense直接在根目录
+SKILLS_DIR = SKILLS_DIR_NEW if SKILLS_DIR_NEW.exists() else SKILLS_DIR_OLD
 
 @app.route('/')
 def index():
