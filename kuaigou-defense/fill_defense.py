@@ -164,40 +164,40 @@ class KuaigouDefenseFiller:
         def_template = self.templates_dir / "3-快购-答辩状.docx"
         if def_template.exists():
             doc = Document(def_template)
-                
-                # 根据订单号是否填写,决定替换方式
-                if order_number:
-                    # 有订单号:正常替换
-                    replacements = {
-                        "【原告】": plaintiff,
-                        "【被告】": defendant,
-                        "【案号】": case_number,
-                        "【店铺名称】": shop_name,
-                        "【经营主体】": business_entity,
-                        "【订单号】": order_number,
-                        "【法院】": court,
-                        "【年月日】": date_str,
-                        "年月日": date_str  # 支持无括号的占位符
-                    }
-                else:
-                    # 无订单号:删除"订单号【订单号】"整个字符串
-                    replacements = {
-                        "【原告】": plaintiff,
-                        "【被告】": defendant,
-                        "【案号】": case_number,
-                        "【店铺名称】": shop_name,
-                        "【经营主体】": business_entity,
-                        "订单号【订单号】": "",  # 删除"订单号【订单号】"
-                        "【法院】": court,
-                        "【年月日】": date_str,
-                        "年月日": date_str  # 支持无括号的占位符
-                    }
-                
-                count = replace_text_in_doc(doc, replacements)
-                output_file = self.output_dir / f"答辩状_{case_number.replace('/', '-')}_{datetime.now().strftime('%Y%m%d')}.docx"
-                doc.save(output_file)
-                print(f"✅ 答辩状已生成 (替换{count}处): {output_file.name}")
-                results.append(output_file)
+            
+            # 根据订单号是否填写,决定替换方式
+            if order_number:
+                # 有订单号:正常替换
+                replacements = {
+                "【原告】": plaintiff,
+                "【被告】": defendant,
+                "【案号】": case_number,
+                "【店铺名称】": shop_name,
+                "【经营主体】": business_entity,
+                "【订单号】": order_number,
+                "【法院】": court,
+                "【年月日】": date_str,
+                "年月日": date_str  # 支持无括号的占位符
+            }
+            else:
+                # 无订单号:删除"订单号【订单号】"整个字符串
+                replacements = {
+                "【原告】": plaintiff,
+                "【被告】": defendant,
+                "【案号】": case_number,
+                "【店铺名称】": shop_name,
+                "【经营主体】": business_entity,
+                "订单号【订单号】": "",  # 删除"订单号【订单号】"
+                "【法院】": court,
+                "【年月日】": date_str,
+                "年月日": date_str  # 支持无括号的占位符
+            }
+            
+            count = replace_text_in_doc(doc, replacements)
+            output_file = self.output_dir / f"答辩状_{case_number.replace('/', '-')}_{datetime.now().strftime('%Y%m%d')}.docx"
+            doc.save(output_file)
+            print(f"✅ 答辩状已生成 (替换{count}处): {output_file.name}")
+            results.append(output_file)
         
         print("-" * 60)
         print(f"✨ 完成! 共生成 {len(results)} 个文档")
